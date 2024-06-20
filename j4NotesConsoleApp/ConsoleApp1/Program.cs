@@ -1,9 +1,14 @@
-﻿namespace MyApp
+﻿using ConsoleApp1;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+
+namespace MyApp
 {
     public class Program
     {
         public static void Main(string[] args)
         {
+            List<Note> note = new List<Note>();
 
             Console.WriteLine("To do list");
             Console.WriteLine("Please choose from following options, for example type 1 and press enter to make a new note");
@@ -12,8 +17,6 @@
             Console.WriteLine("3. Delete notes");
             Console.WriteLine("4. Exit");
 
-            List<string> j4NoteList = new List<string>();
-
             while (true)
             {
                 Console.Write("Please enter your choice: ");
@@ -21,31 +24,29 @@
 
                 if (j4UserInput == "1")
                 {
-                    Console.WriteLine("Please enter the note you would like to create: ");
-                    string j4UserInputOption1 = Console.ReadLine();
-                    j4NoteList.Add(j4UserInputOption1);
+                    AddNote(note);
                 }
                 else if (j4UserInput == "2")
                 {
-                    if (j4NoteList.Count <= 0)
+                    if (note.Count <= 0)
                     {
                         Console.WriteLine("No notes yet");
                     }
                     else
                     {
-                        foreach (string note in j4NoteList)
+                        foreach (Note a in note)
                         {
-                            Console.WriteLine($"{note}");
+                            Console.WriteLine($"{a.NoteName}");
                         }
                     }
                 }
                 else if (j4UserInput == "3")
                 {
-                    foreach(string note in j4NoteList)
+                    foreach(var n in note)
                     {
-                        Console.WriteLine($"{j4NoteList.IndexOf(note)}, {note}");
+                        Console.WriteLine($"{note.IndexOf(n)}, {note}");
                     }
-                    if (j4NoteList.Count == 0)
+                    if (note.Count == 0)
                     {
                         Console.WriteLine("There are no notes");
                     }
@@ -57,7 +58,7 @@
                         {
                             string j4UserInputDelete = Console.ReadLine();
                             int j4Converter = Convert.ToInt32(j4UserInputDelete);
-                            j4NoteList.Remove(j4NoteList[j4Converter]);
+                            note.Remove(note[j4Converter]);
                         }
                         catch
                         {
@@ -74,6 +75,18 @@
                     Console.WriteLine("Something went wrong, please make sure you only enter 1,2,3 or 4");
                 }
             }
+        }
+
+        private static void AddNote(List<Note> note)
+        {
+
+            Console.WriteLine("Please enter a name for the note: ");
+            string namenote = Console.ReadLine();
+
+            Console.WriteLine("Please enter the note you would like to create: ");
+            string notecontent = Console.ReadLine();
+            note.Add(new Note { NoteContent = notecontent, NoteName = namenote });
+
         }
     }
 }
